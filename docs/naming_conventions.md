@@ -1,10 +1,17 @@
 # Naming Conventions
 
-ToC:
+## Table of Contents
 
-[General Rules](#user-content-general-rules)
-
-[Naming Conventions for PL/SQL](#user-content-naming-conventions-for-plsql)
+- [General Rules](#user-content-general-rules)
+- [Naming Conventions for PL/SQL](#user-content-naming-conventions-for-plsql)
+  - [Naming Conventions for PL/SQL Rules](#user-content-naming-conventions-for-plsql-rules)
+  - [Set of Naming Conventions for PL/SQL](#user-content-set-of-naming-conventions-for-plsql)
+- [Naming Convention for Schema Objects](#user-content-naming-convention-for-schema-objects)
+  - [Table](#user-content-naming-convention-for-schema-objects-table)
+  - [Global Temporary Table](#user-content-naming-convention-for-schema-objects-global-temporary-table)
+  - [Private Temporary Table](#user-content-naming-convention-for-schema-objects-private-temporary-table)
+  - [SODA Table](#user-content-naming-convention-for-schema-objects-soda-table)
+  - [Index](#user-content-naming-convention-for-schema-objects-index)
 
 ## General Rules
 
@@ -67,3 +74,115 @@ p5_p_combine_name();
 | Record Type                               | `r_`   | `_type` | `r_variable_type`  |
 | Array/Table (collection) Type             | `t_`   | `_type` | `t_variable_type`  |
 | Subtype                                   |        | `_type` | `t_variable_type`  |
+
+## Naming Convention for Schema Objects
+
+Never enclose objects names in double quotes.
+
+Never use numbers in name for order.
+
+```sql
+carts
+carts1
+carts_idx
+carts_idx1
+```
+
+### Table
+
+All table names should be plural. If the table name contains several words, only the last one should be plural. Chose short, unambiguous names, using no more than one or two words.
+
+```sql
+carts
+red_machines
+```
+
+Prefix lookup tables with the name of the table they relate to.
+
+```sql
+cart_statuses
+```
+
+For a linking (or junction) table, concatenate the names of the two tables being linked in alphabetical order. This rule will expresses composite purpose of the table.
+
+```sql
+carts_vendors
+```
+
+For linking table for generic lookup table use double underline to separate concatenated tables names. But, better to avoid this rule using name, that can describe the table content.
+
+```sql
+cart__cart_statuses
+```
+
+If table designed to always hold one row only - then you should use singular name.
+
+```sql
+profile
+```
+
+If your database deals with different logical functions and you want to group your tables according to the logical group they belong to, then prefix your table name with a two or three character prefix that can identify the group.
+
+```sql
+rw_railways
+rw_stations
+```
+
+### Global Temporary Table
+
+Use naming rules as described for tables [Table](#user-content-naming-convention-for-schema-objects-table) with suffix `_tmp`.
+
+```sql
+june_carts_tmp
+```
+
+### Private Temporary Table
+
+Use naming rules as described for tables [Table](#user-content-naming-convention-for-schema-objects-table).
+The `PRIVATE_TEMP_TABLE_PREFIX` initialisation parameter, which defaults to `ora$ptt_`, defines the prefix that must be used in the name when creating the private temporary table.
+
+```sql
+ora$ptt_june_carts
+```
+
+### SODA Table
+
+Use naming rules as described for tables [Table](#user-content-naming-convention-for-schema-objects-table) with suffix `_soda`. This rule warnings developer, that this table is actually a collection with documents.
+
+```
+orders_soda
+```
+
+### Index
+
+All index should be named by function `{table_name}_{column_name...}_{suffix}`, where `{column_name...}` are columns names of index divided by `_` char without `_` char in names, example:
+
+```
+waybill_id - waybillid
+```
+
+Suffix rules:
+
+| Index Type  | Unique | Functional | Composite | Suffix    |
+| ----------- | ------ | ---------- | --------- | --------- |
+| B-tree      |        |            |           | `_idx`    |
+| B-tree      | ✔︎     |            |           | `_uidx`   |
+| B-tree      |        | ✔︎         |           | `_fidx`   |
+| B-tree      | ✔︎     | ✔︎         |           | `_fuidx`  |
+| B-tree      |        |            | ✔︎        | `_cidx`   |
+| B-tree      | ✔︎     |            | ✔︎        | `_cuidx`  |
+| B-tree      |        | ✔︎         | ✔︎        | `_cfidx`  |
+| B-tree      | ✔︎     | ✔︎         | ✔︎        | `_cfuidx` |
+| Bitmap      |        |            |           | `_bidx`   |
+| Bitmap      |        | ✔︎         |           | `_bfidx`  |
+| Bitmap      |        |            | ✔︎        | `_bcidx`  |
+| Bitmap      |        | ✔︎         | ✔︎        | `_bcfidx` |
+| Bitmap join |        |            |           | `_bjidx`  |
+
+If table `waybills` must have unique index over column `waybill_number`, than index will have name:
+`waybills_waybillnumber_uidx`.
+
+If table `waybills` must have composite functional unique index over columns `waybill_number` and `TRUNC(waybill_date)`, than index will have name:
+`waybills_waybillnumber_waybilldate_cfuidx`.
+
+### Types
