@@ -7,12 +7,14 @@
   - [Naming Conventions for PL/SQL Rules](#user-content-naming-conventions-for-plsql-rules)
   - [Set of Naming Conventions for PL/SQL](#user-content-set-of-naming-conventions-for-plsql)
 - [Naming Convention for Schema Objects](#user-content-naming-convention-for-schema-objects)
-  - [Naming Convention for Table](#user-content-naming-convention-for-tables)
+  - [Naming Convention for Tables](#user-content-naming-convention-for-tables)
   - [Naming Convention for Global Temporary Tables](#user-content-naming-convention-for--global-temporary-tables)
-  - [Naming Convention for Private Temporary Table](#user-content-naming-convention-for-private-temporary-tables)
-  - [Naming Convention for SODA Table](#user-content-naming-convention-for-soda-tables)
-  - [Naming Convention for Index](#user-content-naming-convention-for-indexes)
+  - [Naming Convention for Private Temporary Tables](#user-content-naming-convention-for-private-temporary-tables)
+  - [Naming Convention for SODA Tables](#user-content-naming-convention-for-soda-tables)
+  - [Naming Convention for Indexes](#user-content-naming-convention-for-indexes)
   - [Naming Convention for Constraints](#user-content-naming-convention-for-constraints)
+  - [Naming Convention for Sequences](#user-content-naming-convention-for-sequences)
+  - [Naming Convention for Triggers](#user-content-naming-convention-for-triggers)
 
 ## General Rules
 
@@ -212,5 +214,69 @@ If table `waybills` must have unique constraint over column `waybill_number`, th
 
 If table `waybills` must have unique constraint over columns `waybill_number` and `waybill_date`, than constraint will have name:
 `waybills_waybillnumber_waybilldate_uk`.
+
+### Naming Convention for Sequences
+
+Each sequence must have suffix `_seq`. If sequence used only by one table, than it should be named as table with suffix `_seq`.
+
+Example:
+
+```
+Table: waybills
+Sequence: waybills_seq
+```
+
+### Naming Convention for Triggers
+
+Trigger names should be made up of the table name, an acronym representing the triggering action and the suffix “\_trg”.
+
+Acronym rules:
+
+| Before | After | Insert | Update | Delete | Statement Level | Row Level | Acronym   |
+| ------ | ----- | ------ | ------ | ------ | --------------- | --------- | --------- |
+| ✔︎     |       | ✔︎     |        |        | ✔︎              |           | `_bis`    |
+| ✔︎     |       |        | ✔︎     |        | ✔︎              |           | `_bus`    |
+| ✔︎     |       |        |        | ✔      | ✔︎              |           | `_bds`    |
+| ✔︎     |       | ✔︎     | ✔︎     |        | ✔︎              |           | `_bius`   |
+| ✔︎     |       | ✔︎     |        | ✔      | ✔︎              |           | `_bids`   |
+| ✔︎     |       |        | ✔︎     | ✔      | ✔︎              |           | `_buds`   |
+| ✔︎     |       | ✔︎     | ✔︎     | ✔      | ✔︎              |           | `_biuds`  |
+| ✔︎     |       | ✔︎     |        |        |                 | ✔︎        | `_bir`    |
+| ✔︎     |       |        | ✔︎     |        |                 | ✔︎        | `_bur`    |
+| ✔︎     |       |        |        | ✔      |                 | ✔︎        | `_bdr`    |
+| ✔︎     |       | ✔︎     | ✔︎     |        |                 | ✔︎        | `_biur`   |
+| ✔︎     |       | ✔︎     |        | ✔      |                 | ✔︎        | `_bidr`   |
+| ✔︎     |       |        | ✔︎     | ✔      |                 | ✔︎        | `_budr`   |
+| ✔︎     |       | ✔︎     | ✔︎     | ✔      |                 | ✔︎        | `_biudr`  |
+|        | ✔︎    | ✔︎     |        |        | ✔︎              |           | `_ais`    |
+|        | ✔︎    |        | ✔︎     |        | ✔︎              |           | `_aus`    |
+|        | ✔︎    |        |        | ✔      | ✔︎              |           | `_ads`    |
+|        | ✔︎    | ✔︎     | ✔︎     |        | ✔︎              |           | `_aius`   |
+|        | ✔︎    | ✔︎     |        | ✔      | ✔︎              |           | `_aids`   |
+|        | ✔︎    |        | ✔︎     | ✔      | ✔︎              |           | `_auds`   |
+|        | ✔︎    | ✔︎     | ✔︎     | ✔      | ✔︎              |           | `_aiuds`  |
+|        | ✔︎    | ✔︎     |        |        |                 | ✔︎        | `_air`    |
+|        | ✔︎    |        | ✔︎     |        |                 | ✔︎        | `_aur`    |
+|        | ✔︎    |        |        | ✔      |                 | ✔︎        | `_adr`    |
+|        | ✔︎    | ✔︎     | ✔︎     |        |                 | ✔︎        | `_aiur`   |
+|        | ✔︎    | ✔︎     |        | ✔      |                 | ✔︎        | `_aidr`   |
+|        | ✔︎    |        | ✔︎     | ✔      |                 | ✔︎        | `_audr`   |
+|        | ✔︎    | ✔︎     | ✔︎     | ✔      |                 | ✔︎        | `_aiudr`  |
+| ✔︎     | ✔︎    | ✔︎     |        |        | ✔︎              |           | `_bais`   |
+| ✔︎     | ✔︎    |        | ✔︎     |        | ✔︎              |           | `_baus`   |
+| ✔︎     | ✔︎    |        |        | ✔      | ✔︎              |           | `_bads`   |
+| ✔︎     | ✔︎    | ✔︎     | ✔︎     |        | ✔︎              |           | `_baius`  |
+| ✔︎     | ✔︎    | ✔︎     |        | ✔      | ✔︎              |           | `_baids`  |
+| ✔︎     | ✔︎    |        | ✔︎     | ✔      | ✔︎              |           | `_bauds`  |
+| ✔︎     | ✔︎    | ✔︎     | ✔︎     | ✔      | ✔︎              |           | `_baiuds` |
+| ✔︎     | ✔︎    | ✔︎     |        |        |                 | ✔︎        | `_bair`   |
+| ✔︎     | ✔︎    |        | ✔︎     |        |                 | ✔︎        | `_baur`   |
+| ✔︎     | ✔︎    |        |        | ✔      |                 | ✔︎        | `_badr`   |
+| ✔︎     | ✔︎    | ✔︎     | ✔︎     |        |                 | ✔︎        | `_baiur`  |
+| ✔︎     | ✔︎    | ✔︎     |        | ✔      |                 | ✔︎        | `_baidr`  |
+| ✔︎     | ✔︎    |        | ✔︎     | ✔      |                 | ✔︎        | `_baudr`  |
+| ✔︎     | ✔︎    | ✔︎     | ✔︎     | ✔      |                 | ✔︎        | `_baiudr` |
+
+Example: before insert statement level trigger for table `waybills` will be `waybills_bis_trg`.
 
 ### Naming Convention for Types
