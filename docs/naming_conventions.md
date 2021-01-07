@@ -12,6 +12,7 @@
   - [Naming Convention for Private Temporary Table](#user-content-naming-convention-for-private-temporary-tables)
   - [Naming Convention for SODA Table](#user-content-naming-convention-for-soda-tables)
   - [Naming Convention for Index](#user-content-naming-convention-for-indexes)
+  - [Naming Convention for Constraints](#user-content-naming-convention-for-constraints)
 
 ## General Rules
 
@@ -155,7 +156,7 @@ orders_soda
 
 ### Naming Convention for Indexes
 
-All index should be named by function `{table_name}_{column_name...}_{suffix}`, where `{column_name...}` are columns names of index divided by `_` char without `_` char in names, example:
+All index should be named by template `{table_name}_{column_name...}_{suffix}`, where `{column_name...}` are columns names of index divided by `_` char without `_` char in names, example:
 
 ```
 waybill_id - waybillid
@@ -184,5 +185,32 @@ If table `waybills` must have unique index over column `waybill_number`, than in
 
 If table `waybills` must have composite functional unique index over columns `waybill_number` and `TRUNC(waybill_date)`, than index will have name:
 `waybills_waybillnumber_waybilldate_cfuidx`.
+
+### Naming Convention for Constraints
+
+All constraint should be named by template `{table_name}_{column_name...}_{suffix}`, where `{column_name...}` are columns names of constraint divided by `_` char without `_` char in names, example:
+
+```
+waybill_id - waybillid
+```
+
+Suffix rules:
+
+| Constraint Type | Deferrable | Suffix |
+| --------------- | ---------- | ------ |
+| Unique          |            | `uk`   |
+| Unique          | ✔︎         | `duk`  |
+| Primary Key     |            | `pk`   |
+| Primary Key     | ✔︎         | `dpk`  |
+| Foreign Key     |            | `fk`   |
+| Foreign Key     | ✔︎         | `dfk`  |
+| Check           |            | `ck`   |
+| Check           | ✔︎         | `dck`  |
+
+If table `waybills` must have unique constraint over column `waybill_number`, than constraint will have name:
+`waybills_waybillnumber_uk`.
+
+If table `waybills` must have unique constraint over columns `waybill_number` and `waybill_date`, than constraint will have name:
+`waybills_waybillnumber_waybilldate_uk`.
 
 ### Naming Convention for Types
