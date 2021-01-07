@@ -7,11 +7,11 @@
   - [Naming Conventions for PL/SQL Rules](#user-content-naming-conventions-for-plsql-rules)
   - [Set of Naming Conventions for PL/SQL](#user-content-set-of-naming-conventions-for-plsql)
 - [Naming Convention for Schema Objects](#user-content-naming-convention-for-schema-objects)
-  - [Table](#user-content-naming-convention-for-schema-objects-table)
-  - [Global Temporary Table](#user-content-naming-convention-for-schema-objects-global-temporary-table)
-  - [Private Temporary Table](#user-content-naming-convention-for-schema-objects-private-temporary-table)
-  - [SODA Table](#user-content-naming-convention-for-schema-objects-soda-table)
-  - [Index](#user-content-naming-convention-for-schema-objects-index)
+  - [Naming Convention for Table](#user-content-naming-convention-for-tables)
+  - [Naming Convention for Global Temporary Tables](#user-content-naming-convention-for--global-temporary-tables)
+  - [Naming Convention for Private Temporary Table](#user-content-naming-convention-for-private-temporary-tables)
+  - [Naming Convention for SODA Table](#user-content-naming-convention-for-soda-tables)
+  - [Naming Convention for Index](#user-content-naming-convention-for-indexes)
 
 ## General Rules
 
@@ -88,7 +88,7 @@ carts_idx
 carts_idx1
 ```
 
-### Table
+### Naming Convention for Tables
 
 All table names should be plural. If the table name contains several words, only the last one should be plural. Chose short, unambiguous names, using no more than one or two words.
 
@@ -128,32 +128,32 @@ rw_railways
 rw_stations
 ```
 
-### Global Temporary Table
+### Naming Convention for Global Temporary Tables
 
-Use naming rules as described for tables [Table](#user-content-naming-convention-for-schema-objects-table) with suffix `_tmp`.
+Use naming rules as described for tables [Naming Convention for Tables](#user-content-naming-convention-for-tables) with suffix `_tmp`.
 
 ```sql
 june_carts_tmp
 ```
 
-### Private Temporary Table
+### Naming Convention for Private Temporary Tables
 
-Use naming rules as described for tables [Table](#user-content-naming-convention-for-schema-objects-table).
+Use naming rules as described for tables [Naming Convention for Tables](#user-content-naming-convention-for-tables).
 The `PRIVATE_TEMP_TABLE_PREFIX` initialisation parameter, which defaults to `ora$ptt_`, defines the prefix that must be used in the name when creating the private temporary table.
 
 ```sql
 ora$ptt_june_carts
 ```
 
-### SODA Table
+### Naming Convention for SODA Tables
 
-Use naming rules as described for tables [Table](#user-content-naming-convention-for-schema-objects-table) with suffix `_soda`. This rule warnings developer, that this table is actually a collection with documents.
+Use naming rules as described for tables [Naming Convention for Tables](#user-content-naming-convention-for-tables) with suffix `_soda`. This rule warnings developer, that this table is actually a collection with documents.
 
 ```
 orders_soda
 ```
 
-### Index
+### Naming Convention for Indexes
 
 All index should be named by function `{table_name}_{column_name...}_{suffix}`, where `{column_name...}` are columns names of index divided by `_` char without `_` char in names, example:
 
@@ -185,4 +185,4 @@ If table `waybills` must have unique index over column `waybill_number`, than in
 If table `waybills` must have composite functional unique index over columns `waybill_number` and `TRUNC(waybill_date)`, than index will have name:
 `waybills_waybillnumber_waybilldate_cfuidx`.
 
-### Types
+### Naming Convention for Types
