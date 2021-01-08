@@ -15,6 +15,12 @@
   - [Naming Convention for Constraints](#user-content-naming-convention-for-constraints)
   - [Naming Convention for Sequences](#user-content-naming-convention-for-sequences)
   - [Naming Convention for Triggers](#user-content-naming-convention-for-triggers)
+  - [Naming Convention for System Triggers](#user-content-naming-convention-for-system-triggers)
+  - [Naming Convention for Views](#user-content-naming-convention-for-views)
+  - [Naming Convention for Materialized Views](#user-content-naming-convention-for-materialized-views)
+  - [Naming Convention for Synonyms](#user-content-naming-convention-for-synonyms)
+  - [Naming Convention for Directories](#user-content-naming-convention-for-directories)
+  - [Naming Convention for Packages](#user-content-naming-convention-for-packages)
 
 ## General Rules
 
@@ -119,6 +125,10 @@ cart__cart_statuses
 ```
 
 If table designed to always hold one row only - then you should use singular name.
+
+Tables protected by an editioning view suffixed by `_eb`.
+
+External tables should have `_ext` suffix.
 
 ```sql
 profile
@@ -278,5 +288,73 @@ Acronym rules:
 | ✔︎     | ✔︎    | ✔︎     | ✔︎     | ✔      |                 | ✔︎        | `_baiudr` |
 
 Example: before insert statement level trigger for table `waybills` will be `waybills_bis_trg`.
+
+### Naming Convention for System Triggers
+
+System triggers should be named of event the trigger is based on with `_trg` suffix. DDL events triggers must have prefix `ddl_`.
+
+Examples:
+
+```
+db_startup_trg
+logon_trg
+logoff_trg
+server_error_trg
+ddl_alter_trg
+ddl_create_trg
+ddl_drop_trg
+ddl_grant_trg
+ddl_rename_trg
+```
+
+### Naming Convention for Views
+
+All view must contain `_v` suffix. If view represents more that one row, than it must have plural name of what is contained in view. If view used to represent data for one table, than it should be named as table (table: `waybills`, view `waybills_v`).
+
+If there is a view combining two tables `table1` and `table2`, name the view as `table1_table2_v`. Same naming convention can be used with junction tables that are used to link two many-to-many related base tables.
+
+Editioning views are named like the original underlying table to avoid changing the existing application code when introducing edition based redefinition (EBR).
+
+### Naming Convention for Materialized Views
+
+All view must contain `_mv` suffix. If view represents more that one row, than it must have plural name of what is contained in view.
+
+### Naming Convention for Synonyms
+
+Synonyms should be used to address an object in a foreign schema rather than to rename an object. Therefore, synonyms should share the name with the referenced object.
+
+### Naming Convention for Directories
+
+All directories must contain `_dir` suffix.
+
+### Naming Convention for Packages
+
+All packages can be logically divided by types of their usage. Base on this, name of package must have special suffix. Name is built from the content that is contained within the package.
+
+| Logical Package Type | Description                                                    | Suffix    |
+| -------------------- | -------------------------------------------------------------- | --------- |
+| Table API            | Insert, update, delete, constants and types, subtypes for DML  | `_tapi`   |
+| Table Common         | Find one, processes with more than one DML statements, used by | `_cmn`    |
+| REST API             | Procedures and functions, constants, types for REST API        | `_rest`   |
+| Jobs                 | Procedures and functions, constants, types for jobs            | `_jobs`   |
+| Deterministic        | Deterministic functions and constants for table                | `_determ` |
+| Pipelined            | Functions, constants, types for pipelines based on table       | `_pipe`   |
+| Common               | Common functionality, used in other packages                   |           |
+
+Packages with common functionality don't have suffix.
+
+Examples:
+
+```
+Table - waybills
+
+Packages for table:
+Table API - waybills_tapi
+Table Common - waybills_cmn
+REST API - waybills_rest
+Jobs - waybills_jobs
+Deterministic - waybills_determ
+Pipelined - waybills_pipe
+```
 
 ### Naming Convention for Types
