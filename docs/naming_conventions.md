@@ -11,6 +11,7 @@
   - [Naming Convention for Global Temporary Tables](#user-content-naming-convention-for--global-temporary-tables)
   - [Naming Convention for Private Temporary Tables](#user-content-naming-convention-for-private-temporary-tables)
   - [Naming Convention for SODA Tables](#user-content-naming-convention-for-soda-tables)
+  - [Naming Convention for Columns](#user-content-naming-convention-for-columns)
   - [Naming Convention for Indexes](#user-content-naming-convention-for-indexes)
   - [Naming Convention for Constraints](#user-content-naming-convention-for-constraints)
   - [Naming Convention for Sequences](#user-content-naming-convention-for-sequences)
@@ -21,6 +22,10 @@
   - [Naming Convention for Synonyms](#user-content-naming-convention-for-synonyms)
   - [Naming Convention for Directories](#user-content-naming-convention-for-directories)
   - [Naming Convention for Packages](#user-content-naming-convention-for-packages)
+  - [Naming Convention for Functions](#user-content-naming-convention-for-functions)
+  - [Naming Convention for Procedures](#user-content-naming-convention-for-procedures)
+  - [Naming Convention for Scheduler Objects](#user-content-naming-convention-for-scheduler-objects)
+  - [Naming Convention for Types](#user-content-naming-convention-for-types)
 
 ## General Rules
 
@@ -126,17 +131,17 @@ cart__cart_statuses
 
 If table designed to always hold one row only - then you should use singular name.
 
+```
+profile
+```
+
 Tables protected by an editioning view suffixed by `_eb`.
 
 External tables should have `_ext` suffix.
 
-```sql
-profile
-```
-
 If your database deals with different logical functions and you want to group your tables according to the logical group they belong to, then prefix your table name with a two or three character prefix that can identify the group.
 
-```sql
+```
 rw_railways
 rw_stations
 ```
@@ -165,6 +170,10 @@ Use naming rules as described for tables [Naming Convention for Tables](#user-co
 ```
 orders_soda
 ```
+
+### Naming Convention for Columns
+
+Singular name of what is stored in the column (unless the column data type is a collection, in this case you use plural names).
 
 ### Naming Convention for Indexes
 
@@ -357,4 +366,38 @@ Deterministic - waybills_determ
 Pipelined - waybills_pipe
 ```
 
+### Naming Convention for Functions
+
+Name is built from a verb followed by a noun in general. Nevertheless, it is not sensible to call a function `get_...` as a function always gets something.
+The name of the function should answer the question “What is the outcome of the function?”.
+
+### Naming Convention for Procedures
+
+Name is built from a verb followed by a noun. The name of the procedure should answer the question “What is done?”.
+
+### Naming Convention for Scheduler Objects
+
+Job must be named as noun with `_job` suffix and should answer the question "What is this?". Name can contain one or more words.
+
+Example:
+
+```
+manager_job
+waybills_handler_job
+orders_fetcher_job
+emails_sender_job
+```
+
+Programs should have suffix `_prg`.
+
+Chains should have suffix `_chn`.
+
+File Watchers should have suffix `_fw`.
+
+Credentials should have suffix `_cred`.
+
 ### Naming Convention for Types
+
+A collection type should include the name of the collected objects in their name and suffix `_ct`.
+
+The name of an object type is built by its content (singular) followed by a `_ot` suffix.
