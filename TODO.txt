@@ -1,0 +1,7 @@
+[Code Organisation]
+  - Separate common packages for types and constants (https://trivadis.github.io/plsql-and-sql-coding-guidelines/v3.6/4-language-usage/2-variables-and-types/1-general/g-2120/)
+
+[Migrations]
+  - Never use EXEC keyword in migrations files. VSCode, DataGrip and some 
+  others IDE dont understand this keyword. It's belong to SQLPlus. 
+  Better to use BEGIN END anonymus code block.

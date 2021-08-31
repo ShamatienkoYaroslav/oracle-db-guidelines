@@ -8,7 +8,7 @@
   - [Set of Naming Conventions for PL/SQL](#user-content-set-of-naming-conventions-for-plsql)
 - [Naming Convention for Schema Objects](#user-content-naming-convention-for-schema-objects)
   - [Naming Convention for Tables](#user-content-naming-convention-for-tables)
-  - [Naming Convention for Global Temporary Tables](#user-content-naming-convention-for--global-temporary-tables)
+  - [Naming Convention for Global Temporary Tables](#user-content-naming-convention-for-global-temporary-tables)
   - [Naming Convention for Private Temporary Tables](#user-content-naming-convention-for-private-temporary-tables)
   - [Naming Convention for SODA Tables](#user-content-naming-convention-for-soda-tables)
   - [Naming Convention for Columns](#user-content-naming-convention-for-columns)
@@ -46,25 +46,16 @@
 ### Naming Conventions for PL/SQL Rules
 
 1. All variables names must be in lowercase.
+1. All exceptions and constants must be uppercase.
 1. Avoid double quoted identifiers.
 1. Pattern to follow is `{prefix}variablecontent{suffix}`.
-1. Function name must start with "f#\_" prefix, where "#" is number in package.
-   Example:
-   ```plsql
-   f4_get_goods();
-   ```
-1. If function is local, then name must start with prefix "fl#".
-   Example:
-   ```plsql
-   fl4_get_goods();
-   ```
-1. Nested function or procedure name must start with `{parent_prefix}_{prefix}_`, where `{parent_prefix}` is prefix of parent function or procedure in package and `{prefix}` is type of code block (function - f, procedure - p).
+1. Nested function or procedure name must start with name of parent and it's own name divided by `__`.
    Example:
 
 ```plsql
-f4_p_handle_goods_localisation();
-f4_f_get_goods_localisation();
-p5_p_combine_name();
+PARENT: fetch_data
+CHILD: fetch_data__handle_record
+CHILD OF A CHILD: fetch_data__handle_record__log
 ```
 
 ### Set of Naming Conventions for PL/SQL
@@ -73,12 +64,12 @@ p5_p_combine_name();
 | ----------------------------------------- | ------ | ------- | ------------------ |
 | Global Variable                           | `g_`   |         | `g_variable`       |
 | Local Variable                            | `l_`   |         | `l_variable`       |
-| Constant                                  | `c_`   |         | `c_variable`       |
+| Constant                                  | `C_`   |         | `C_VARIABLE`       |
 | Cursor                                    | `cr_`  |         | `cr_variable`      |
 | Record                                    | `r_`   |         | `r_variable`       |
 | Array/Table (collection)                  | `t_`   |         | `t_variable`       |
 | Object                                    | `o_`   |         | `o_variable`       |
-| Exception                                 | `e_`   |         | `e_variable`       |
+| Exception                                 | `E_`   |         | `E_VARIABLE`       |
 | Function/Cursor Parameter                 | `p_`   |         | `p_variable`       |
 | Procedure IN Parameter                    | `i_`   |         | `i_variable`       |
 | Procedure OUT Parameter                   | `o_`   |         | `o_variable`       |
@@ -139,6 +130,8 @@ Tables protected by an editioning view suffixed by `_eb`.
 
 External tables should have `_ext` suffix.
 
+Denormalized tables should have `_denorm` suffix.
+
 If your database deals with different logical functions and you want to group your tables according to the logical group they belong to, then prefix your table name with a two or three character prefix that can identify the group.
 
 ```
@@ -148,7 +141,7 @@ rw_stations
 
 ### Naming Convention for Global Temporary Tables
 
-Use naming rules as described for tables [Naming Convention for Tables](#user-content-naming-convention-for-tables) with suffix `_tmp`.
+Use naming rules as described for tables [Naming Convention for Tables](#user-content-naming-convention-for-tables) with suffix `_gtt`.
 
 ```sql
 june_carts_tmp
@@ -247,7 +240,7 @@ Sequence: waybills_seq
 
 ### Naming Convention for Triggers
 
-Trigger names should be made up of the table name, an acronym representing the triggering action and the suffix “\_trg”.
+Trigger names should be made up of the table name, an acronym representing the triggering action and the suffix `_trg`.
 
 Acronym rules:
 
@@ -298,6 +291,10 @@ Acronym rules:
 
 Example: before insert statement level trigger for table `waybills` will be `waybills_bis_trg`.
 
+Compound triggers should have acronym `_cmp` and suffix `_trg`.
+
+Example: `waybills_cmp_trg`.
+
 ### Naming Convention for System Triggers
 
 System triggers should be named of event the trigger is based on with `_trg` suffix. DDL events triggers must have prefix `ddl_`.
@@ -340,15 +337,15 @@ All directories must contain `_dir` suffix.
 
 All packages can be logically divided by types of their usage. Base on this, name of package must have special suffix. Name is built from the content that is contained within the package.
 
-| Logical Package Type | Description                                                    | Suffix    |
-| -------------------- | -------------------------------------------------------------- | --------- |
-| Table API            | Insert, update, delete, constants and types, subtypes for DML  | `_tapi`   |
-| Table Common         | Find one, processes with more than one DML statements, used by | `_cmn`    |
-| REST API             | Procedures and functions, constants, types for REST API        | `_rest`   |
-| Jobs                 | Procedures and functions, constants, types for jobs            | `_jobs`   |
-| Deterministic        | Deterministic functions and constants for table                | `_determ` |
-| Pipelined            | Functions, constants, types for pipelines based on table       | `_pipe`   |
-| Common               | Common functionality, used in other packages                   |           |
+| Logical Package Type | Description                                                                    | Suffix    |
+| -------------------- | ------------------------------------------------------------------------------ | --------- |
+| Table API            | Select one, insert, update, delete, constants and types, subtypes for DML      | `_tapi`   |
+| Table Manager        | Processes with more than one DML statements or complex functionality for table | `_mng`    |
+| REST API             | Procedures and functions, constants, types for REST API                        | `_rest`   |
+| Jobs                 | Procedures and functions, constants, types for jobs                            | `_jobs`   |
+| Deterministic        | Deterministic functions and constants for table                                | `_determ` |
+| Pipelined            | Functions, constants, types for pipelines based on table                       | `_pipe`   |
+| Common               | Common functionality, used in other packages                                   |           |
 
 Packages with common functionality don't have suffix.
 
