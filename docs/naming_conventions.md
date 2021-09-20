@@ -75,10 +75,10 @@ CHILD OF A CHILD: fetch_data__handle_record__log
 | Procedure OUT Parameter                   | `o_`   |         | `o_variable`       |
 | Procedure IN/OUT Parameter                | `io_`  |         | `io_variable`      |
 | Storage table (CREATE TABLE ... STORE AS) | `st_`  |         | `st_variable`      |
-| Referenced cursor type                    | `cr_`  | `_type` | `cr_variable_type` |
-| Record Type                               | `r_`   | `_type` | `r_variable_type`  |
-| Array/Table (collection) Type             | `t_`   | `_type` | `t_variable_type`  |
-| Subtype                                   |        | `_type` | `t_variable_type`  |
+| Referenced cursor type                    | `CR_`  | `_TYPE` | `CR_VARIABLE_TYPE` |
+| Record Type                               | `R_`   | `_TYPE` | `R_VARIABLE_TYPE`  |
+| Array/Table (collection) Type             | `T_`   | `_TYPE` | `T_VARIABLE_TYPE`  |
+| Subtype                                   |        | `_TYPE` | `T_VARIABLE_type`  |
 
 ## Naming Convention for Schema Objects
 
@@ -92,6 +92,14 @@ carts1
 carts_idx
 carts_idx1
 ```
+
+With usage of Smart DB schemas names must follow next rules:
+| SmartDB Part | Schema Suffix |
+| ------------ | ------------- |
+| Data layer | `_data` |
+| Main logic layer | `_logic` |
+| REST endpoints layer | `_rest` |
+| APEX layer | `_apex` |
 
 ### Naming Convention for Tables
 
@@ -126,7 +134,7 @@ If table designed to always hold one row only - then you should use singular nam
 profile
 ```
 
-Tables protected by an editioning view suffixed by `_eb`.
+Tables protected by an editioning view suffixed by `_eb` (if SmartDB methodology is not used).
 
 External tables should have `_ext` suffix.
 
@@ -320,6 +328,8 @@ All view must contain `_v` suffix. If view represents more that one row, than it
 If there is a view combining two tables `table1` and `table2`, name the view as `table1_table2_v`. Same naming convention can be used with junction tables that are used to link two many-to-many related base tables.
 
 Editioning views are named like the original underlying table to avoid changing the existing application code when introducing edition based redefinition (EBR).
+
+When using SmartDB methodology, then views, that are representing tables, must be named as their tables.
 
 ### Naming Convention for Materialized Views
 
